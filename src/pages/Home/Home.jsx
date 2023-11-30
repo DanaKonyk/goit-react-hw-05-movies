@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getTrendingMovies } from '../../helper/api';
 import MoviesList from '../../components/MoviesList/MoviesList';
+import css from './Home.module.css';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -10,8 +11,8 @@ const Home = () => {
   }, []);
 
   return (
-    <main>
-      <h1>Trendings today</h1>
+    <main className={css.section}>
+      <h1 className={css.title}>Trendings today</h1>
       <MoviesList movies={movies} />
     </main>
   );

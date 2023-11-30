@@ -1,12 +1,23 @@
 import { useEffect, useState } from 'react';
 import { getMovieById } from '../../helper/api';
-import { NavLink, Outlet, useParams } from 'react-router-dom';
+import css from './MovieDetails.module.css';
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 
 const basePosterPath = 'https://image.tmdb.org/t/p/w500';
+const defaultImg =
+  '<https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700>';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState('');
   const { movieId } = useParams();
+  const location = useLocation();
+  const backLink = location.state?.from ?? '/';
 
   useEffect(() => {
     const checkMovieById = async () => {
@@ -21,43 +32,59 @@ const MovieDetails = () => {
   }, [movieId]);
 
   return (
-    <div>
-      {movie.poster_path && movie.poster_path !== '' ? (
-        <img src={basePosterPath + movie.poster_path} alt="Movie Poster" />
-      ) : (
-        <p>No poster available</p>
-      )}
-      <div>
-        <h2>{movie.original_title}</h2>
-        <p>User Score: {Math.round(movie.vote_average * 10)}%</p>
-        <ul>
-          <li>
-            <h3>Overview</h3>
-            <p>{movie.overview}</p>
-          </li>
-          <li>
-            <h4>Genres</h4>
-            <ul>
-              {movie.genres?.map(genre => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </ul>
-          </li>
-        </ul>
+    <>
+      <Link className={css.link} to={backLink}>
+        Go back
+      </Link>
+
+      <div className={css.box}>
+        {
+          <img
+            src={
+              movie.poster_path
+                ? [basePosterPath + movie.poster_path]
+                : defaultImg
+            }
+            width={250}
+            alt="poster"
+          />
+        }
+        <div className={css.textBox}>
+          <h2>{movie.original_title}</h2>
+          <p>User Score: {Math.round(movie.vote_average * 10)}%</p>
+          <ul className={css.list}>
+            <li>
+              <h3>Overview</h3>
+              <p>{movie.overview}</p>
+            </li>
+            <li>
+              <h4>Genres</h4>
+              <ul className={css.listGenres}>
+                {movie.genres?.map(genre => (
+                  <li key={genre.id}>{genre.name}</li>
+                ))}
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div>
+      <div className={css.linkBox}>
         <h2>Additional information</h2>
         <ul>
           <li>
-            <NavLink to="cast">Cast</NavLink>
+            <NavLink className={css.link} to="cast">
+              Cast
+            </NavLink>
           </li>
           <li>
-            <NavLink to="reviews">Review</NavLink>
+            <NavLink className={css.link} to="reviews">
+              Review
+            </NavLink>
           </li>
         </ul>
         <Outlet />
       </div>
-    </div>
+    </>
   );
 };
 
