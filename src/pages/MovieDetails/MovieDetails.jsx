@@ -11,7 +11,7 @@ import {
 
 const basePosterPath = 'https://image.tmdb.org/t/p/w500';
 const defaultImg =
-  '<https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700>';
+  'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState('');
@@ -53,17 +53,23 @@ const MovieDetails = () => {
           <h2>{movie.original_title}</h2>
           <p>User Score: {Math.round(movie.vote_average * 10)}%</p>
           <ul className={css.list}>
+            {movie.overview && (
+              <li>
+                <h3>Overview</h3>
+                <p>{movie.overview}</p>
+              </li>
+            )}
             <li>
-              <h3>Overview</h3>
-              <p>{movie.overview}</p>
-            </li>
-            <li>
-              <h4>Genres</h4>
-              <ul className={css.listGenres}>
-                {movie.genres?.map(genre => (
-                  <li key={genre.id}>{genre.name}</li>
-                ))}
-              </ul>
+              {movie.genres && movie.genres.length > 0 && (
+                <div>
+                  <h4>Genres</h4>
+                  <ul className={css.listGenres}>
+                    {movie.genres.map(genre => (
+                      <li key={genre.id}>{genre.name}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </li>
           </ul>
         </div>
@@ -72,12 +78,12 @@ const MovieDetails = () => {
         <h2>Additional information</h2>
         <ul>
           <li>
-            <NavLink className={css.link} to="cast">
+            <NavLink className={css.link} state={location.state} to="cast">
               Cast
             </NavLink>
           </li>
           <li>
-            <NavLink className={css.link} to="reviews">
+            <NavLink className={css.link} state={location.state} to="reviews">
               Review
             </NavLink>
           </li>

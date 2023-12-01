@@ -11,7 +11,7 @@ const Movies = () => {
 
   useEffect(() => {
     const currentQuery = searchParams.get('query');
-    console.log(currentQuery);
+
     if (!currentQuery) return;
 
     const fetchMovie = async () => {
