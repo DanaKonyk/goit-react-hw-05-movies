@@ -9,12 +9,28 @@ const SharedLayout = () => {
         <nav>
           <ul className={css.list}>
             <li className={css.item}>
-              <NavLink className={css.link} to="/">
+              <NavLink
+                to="/"
+                className={css.link}
+                style={({ isActive }) => ({
+                  borderRadius: isActive ? '10px' : '0px',
+                  background: isActive ? '#3f7b6f' : '#73b8aa',
+                  padding: isActive ? '5px' : '0px',
+                })}
+              >
                 Home
               </NavLink>
             </li>
             <li className={css.item}>
-              <NavLink className={css.link} to="/movies">
+              <NavLink
+                to="/movies"
+                className={css.link}
+                style={({ isActive }) => ({
+                  borderRadius: isActive ? '10px' : '0px',
+                  background: isActive ? '#3f7b6f' : '#73b8aa',
+                  padding: isActive ? '5px' : '0px',
+                })}
+              >
                 Movies
               </NavLink>
             </li>
